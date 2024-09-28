@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.main-section {
+    min-height: 80vh; /* Adjust this value based on your preference */
+}
+/* Gradient Background for Footer */
+.footer {
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    color: black;
+}
+
+.footer .language-selection span img {
+    margin-right: 8px;
+}
+
+.footer .text-primary {
+    color: #7b4ef2;
+}
+
+/* Style for the Back-to-Top Button */
+.back-to-top a {
+    font-size: 20px;
+    padding: 10px 12px;
+    border-radius: 50%;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+}
+
+.login-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.team-section {
+    background-color: #f8f9fa;
+    padding: 50px 0;
+}
+
+.team-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #0d47a1;
+    font-weight: bold;
+}
+
+.team-member {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #e9ecef;
+}
+
+.team-member h5 {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.team-member p {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.team-member .leader {
+    font-size: 12px;
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+.team-member .checkmark {
+    color: #198754;
+    font-size: 20px;
+    margin-top: 10px;
+}
+.btn{
+    margin-top: 10px;
+}
+.icon {
+    font-size: 3rem;
+    color: #6f42c1;
+}
+
+.section-title {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.feature-box {
+    text-align: center;
+}
+
+.feature-box p {
+    color: #6c757d;
+}
+
+/* Optional: hover effect */
+.feature-box:hover .icon {
+    color: #5a2aa4;
+}

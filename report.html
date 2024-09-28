@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Found Item</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="bg-primary text-white text-center p-4">
+        <h1>Report a Found Item</h1>
+    </header>
+    <div class="container mt-4">
+        <form id="reportForm" action="/report" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="itemType">Item Type</label>
+                <select class="form-control" id="itemType" name="itemType" required>
+                    <option value="" disabled selected>Select Item Type</option>
+                    <option value="Laptop">Laptop</option>
+                    <option value="Phone">Phone</option>
+                    <option value="Books">Books</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="dateLost">Date Found</label>
+                <input type="date" class="form-control" id="dateLost" name="dateLost" required>
+            </div>
+            <div class="form-group">
+                <label for="locationLost">Location Found</label>
+                <input type="text" class="form-control" id="locationLost" name="locationLost" required>
+            </div>
+            <div class="form-group">
+                <label for="contactInfo">Contact Information</label>
+                <input type="text" class="form-control" id="contactInfo" name="contactInfo" required>
+            </div>
+            <div class="form-group">
+                <label for="imageUpload">Upload Image (optional)</label>
+                <input type="file" class="form-control-file" id="imageUpload" name="imageUpload" accept="image/jpeg, image/png" onchange="previewImage(event)">
+                <img id="imagePreview" src="" alt="Image Preview" class="mt-2" style="display:none; max-width: 100%; height: auto;">
+                <div id="errorMessage" class="text-danger mt-2" style="display:none;"></div>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('imagePreview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block'; // Show the image preview
+            }
+
+            if (file) {
+                reader.readAsDataURL(file); // Convert to base64 string
+            } else {
+                preview.src = ''; // Clear the preview
+                preview.style.display = 'none'; // Hide the preview
+            }
+        }
+
+        function validateForm() {
+            const fileInput = document.getElementById('imageUpload');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'none'; // Reset error message
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+
+                // Check file size (500 KB)
+                if (file.size > 500 * 1024) {
+                    errorMessage.textContent = 'File size must be less than 500 KB.';
+                    errorMessage.style.display = 'block';
+                    return false; // Prevent form submission
+                }
+
+                // Check file type
+                const validFormats = ['image/jpeg', 'image/png'];
+                if (!validFormats.includes(file.type)) {
+                    errorMessage.textContent = 'Only JPG and PNG formats are allowed.';
+                    errorMessage.style.display = 'block';
+                    return false; // Prevent form submission
+                }
+            }
+
+            // Show confirmation alert
+            const confirmSubmission = confirm("Are you sure you want to submit the form?");
+            return confirmSubmission; // Allow form submission if confirmed
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        .action-buttons {
+            display: flex;
+            gap: 10px; /* Add spacing between buttons */
+        }
+        .btn-custom {
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3; /* Darker blue for hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        .table th, .table td {
+            vertical-align: middle; /* Center align content */
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-primary text-white text-center p-4">
+        <h1>Admin Dashboard</h1>
+    </header>
+    <div class="container mt-4">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="lostItemsTable">
+                <thead>
+                    <tr>
+                        <th>Item Type</th>
+                        <th>Description</th>
+                        <th>Date Lost</th>
+                        <th>Location Lost</th>
+                        <th>Contact Info</th>
+                        <th>Status</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${lostItems}">
+                        <td th:text="${item.itemType}"></td>
+                        <td th:text="${item.description}"></td>
+                        <td th:text="${item.dateLost}"></td>
+                        <td th:text="${item.locationLost}"></td>
+                        <td th:text="${item.contactInfo}"></td>
+                        <td th:text="${item.status}"></td>
+                        <td>
+                            <button class="btn btn-info" 
+                                    th:data-image-path="@{/images/{id}(id=${item.id})}" 
+                                    onclick="showImageModal(this)">View Image</button>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <form th:action="@{/lost-items/approve/{id}(id=${item.id})}" method="post" onsubmit="return confirmAction('approve', '${item.itemType}')">
+                                    <button type="submit" class="btn btn-success btn-sm btn-custom">Approve</button>
+                                </form>
+                                <form th:action="@{/lost-items/reject/{id}(id=${item.id})}" method="post" onsubmit="return confirmAction('reject', '${item.itemType}')">
+                                    <button type="submit" class="btn btn-danger btn-sm btn-custom">Reject</button>
+                                </form>
+                                <form th:action="@{/lost-items/delete/{id}(id=${item.id})}" method="post" onsubmit="return confirmAction('delete', '${item.itemType}')">
+                                    <button type="submit" class="btn btn-warning btn-sm btn-custom">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal for Image Display -->
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Item Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" alt="Item Image" class="img-fluid" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showImageModal(button) {
+            const imagePath = button.getAttribute('data-image-path');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imagePath; // Directly use the image path
+            $('#imageModal').modal('show'); // Show the modal
+        }
+
+        function confirmAction(action, itemType) {
+            return confirm(`Are you sure you want to ${action} this ${itemType}?`);
+        }
+    </script>
+</body>
+</html>

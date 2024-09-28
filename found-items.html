@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Found Items</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="bg-primary text-white text-center p-4">
+        <h1>Found Items</h1>
+        <p class="lead">Helping reunite lost items with their owners!</p>
+    </header>
+    
+    <div class="container mt-4">
+        <div class="input-group mb-3">
+            <select id="itemTypeFilter" class="custom-select" onchange="filterItems()">
+                <option value="">Filter By Item Types</option>
+                <option value="all">All Types</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Phone">Phone</option>
+                <option value="Books">Books</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <div class="row" id="itemList">
+            <div th:each="item : ${foundItems}" class="col-md-4 mb-4">
+                <div class="card">
+                    <img th:src="@{/images/{id}(id=${item.id})}" alt="Item Image" class="card-img-top" />
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${item.itemType}"></h5>
+                        <p class="card-text" th:text="${item.description}"></p>
+                        <p class="card-text"><small>Date Lost: <span th:text="${item.dateLost}"></span></small></p>
+                        <p class="card-text"><small>Location: <span th:text="${item.locationLost}"></span></small></p>
+                        <p class="card-text"><small>Contact: <span th:text="${item.contactInfo}"></span></small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center p-4 mt-4">
+        <p>&copy; 2024 Found Items. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function filterItems() {
+            const itemType = document.getElementById("itemTypeFilter").value;
+            const url = itemType ? `/found-items?itemType=${itemType}` : `/found-items`;
+            window.location.href = url; // Redirect to the new URL with the selected item type
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
